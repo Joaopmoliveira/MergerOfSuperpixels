@@ -1,5 +1,6 @@
 function [condition,handles]=chooseCondition(B,BW,handles)
 set(handles.Next,'Visible','off')
+set(handles.Done,'Visible','off')
 set(handles.Text1,'Visible','off')
 set(handles.Text2,'Visible','off')
 set(handles.ImageSelection,'Visible','off')

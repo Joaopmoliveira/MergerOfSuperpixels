@@ -45,7 +45,12 @@ waitfor(Next,'UserData');
 set(ImageSelection,'Enable','inactive')
 A=imread(stringImage);
 B=imresize(A,1/4);
-set(Next,'String','Done')
+set(Next,'Enable','off')
+Done=uicontrol('Style','pushbutton','Position',[670 50 100 20],'string','Done');
+Done.Callback={@finalfucntion_callback};
+    function finalfucntion_callback(src,event)
+        src.UserData='String';
+    end
 Text3=uicontrol('Style','text','String','Properties for the SLIC method','Position',[280 110 200 16]);handles.Text3=Text3;
 Text4=uicontrol('Style','text','String','Desired SP number','Position',[280 90 110 16]);handles.Text4=Text4;
 ValueInput = uicontrol('Style','edit','Position',[400 90 50 16]);
@@ -60,12 +65,14 @@ waitfor(ValueInput2,'String')
 handles.ValueInput2=ValueInput2;
 Compactness = str2double(get(ValueInput2,'String'));
 Retry=uicontrol('Style','pushbutton','Position',[570 50 100 20],'string','Retry');
+handles.Done=Done;
 Retry.Callback={@Retryfunction_callback,handles};
-    function Retryfunction(src,event,handles)
+    function Retryfunction_callback(src,event,handles)
         set(handles.ValueInput2,'Enable','off')
         set(handles.ValueInput2,'Visible','off')
         set(handles.ValueInput,'Enable','off')
         set(handles.ValueInput,'Visible','off')
+        set(handles.Done,'Enable','inactive')
         ValueInput = uicontrol('Style','edit','Position',[400 90 50 16]);
         uicontrol(ValueInput);
         waitfor(ValueInput,'String')
@@ -74,7 +81,7 @@ Retry.Callback={@Retryfunction_callback,handles};
         ValueInput2 = uicontrol('Style','edit','Position',[400 70 50 16]);
         uicontrol(ValueInput2);
         waitfor(ValueInput2,'String')
-        NumberSP = str2double(get(ValueInput2,'String'));
+        Compactness = str2double(get(ValueInput2,'String'));
         handles.ValueInput2=ValueInput2;
         [L,N] = superpixels(B,NumberSP,'Method','slic','Compactness',Compactness);
         BW = boundarymask(L);
@@ -84,9 +91,11 @@ Retry.Callback={@Retryfunction_callback,handles};
         end
         CurrentAxx=axes('position',[0.35 0.2 0.6 0.8]);
         imshow(imoverlay(B,BW,'cyan'));
-        handles.CurrentAxx=CurrentAxx;
+        handles.CurrentAxx=CurrentAxx;       
+        set(handles.Done,'Enable','on')
+        event.Source.UserData.handles=handles;
+        event.Source.UserData.activation=1;
     end
-handles.ValueInput2=ValueInput2;
 [L,N] = superpixels(B,NumberSP,'Method','slic','Compactness',Compactness);
 BW = boundarymask(L);
 set(Text2,'String','Result of SLIC method')
@@ -96,7 +105,11 @@ if ~isempty(axesHandlesToChildObjects)
 end
 CurrentAxx=axes('position',[0.35 0.2 0.6 0.8]);
 imshow(imoverlay(B,BW,'cyan'));
-a=1;
-handles.CurrentAxx=CurrentAxx;
+waitfor(Done,'UserData')
+if ~isempty(Retry.UserData)
+    handles=Retry.UserData.handles;
+else
+    handles.CurrentAxx=CurrentAxx;
+end
 idx = label2idx(L);
 end

@@ -4,6 +4,7 @@ numCols = size(B,2);
 adj = cell(N,1);
 %Aqui guardamos os valores de cor num vetor para facilitar o processamento
 %que é necessario a seguir
+MessageWarning = msgbox({'Your image is being processed'; 'Wait until this window closes'});
 ColorVector=zeros(4,N);
 for pixVal=1:N;
     redIdx               = idx{pixVal};
@@ -16,6 +17,9 @@ for pixVal=1:N;
     prevMask             = (L == pixVal);
     currMask             = imdilate(prevMask, ones(3));
     adj{pixVal}          = unique(L(currMask & ~prevMask));
+end
+if ~isempty(MessageWarning)
+    delete(MessageWarning);
 end
 end
 
