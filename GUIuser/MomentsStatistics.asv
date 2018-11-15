@@ -19,15 +19,14 @@ load('data.mat','data');
 if ~verifica_entrada(param)
     error('The param value introduced does not existe in the struct data')
 end
-Bimproved=uint8(ImproveImage(B,1.5,1.05));
-imshow(imoverlay(Bimproved,BW,'cyan'));
+imshow(imoverlay(uint8(ImproveImage(B,1.5,1.05)),BW,'cyan'));
 Igray     = rgb2gray(B);
 n         = input(['Insert the number of ' param '\n']);
 SupPixTar = zeros(1,n);
 xposi     = zeros(1,n);
 yposi     = zeros(1,n);
 for i=1:n
-    imshow(imoverlay(Bimproved,BW,'cyan'));
+    imshow(imoverlay(uint8(ImproveImage(B,1.5,1.05)),BW,'cyan'));
     [xposi(i),yposi(i)]   = ginput(1);
     SupPixTar(i)          = L(round(yposi(i)),round(xposi(i)));
     BW(idx{SupPixTar(i)}) = 1;
@@ -47,5 +46,4 @@ resultmatrix(1,:) = var;
 resultmatrix(2,:) = skew;
 resultmatrix(3,:) = Kurt;
 data.Objects.(param)= [data.Objects.(param) resultmatrix];
-save('GUIuser/data.mat','data')
 end

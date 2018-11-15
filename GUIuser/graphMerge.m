@@ -1,4 +1,6 @@
-function [idxfinal,Lf] = graphMerge(MergeMatrix,L,idx)
+function [handles,Lf] = graphMerge(L,handles)
+MergeMatrix=handles.MergeMatrix;
+idx=handles.idx;
 G = graph(MergeMatrix);
  %Podemos agora extrair a informação em relação aos grupos de pixeis que
  %estão conectados
@@ -15,5 +17,6 @@ G = graph(MergeMatrix);
     % Ifinal(idxfinal{Run})=(ColorVector(1,BINS{Run})*ColorVector(2,BINS{Run})')/(sum(ColorVector(2,BINS{Run})));
      Lf(idxfinal{Run})=Run;
  end
+ handles.idxfinal=idxfinal;
 end
 

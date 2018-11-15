@@ -1,7 +1,8 @@
-function Boolean=mergeCondition(pixVal,adj,ColorVector,condition,j,threshold)
+function Boolean=mergeCondition(pixVal,adj,condition,j,handles)
+ColorVector=handles.ColorVector;
 switch condition
     case 1
-        Boolean=ColorConditionAngle(pixVal,adj{pixVal}(j),ColorVector,threshold);
+        Boolean=ColorConditionAngle(pixVal,adj{pixVal}(j),ColorVector,0.04);
     case 2
         Boolean=ColorConditionNorm(pixVal,adj{pixVal}(j),ColorVector,threshold);
     case 3

@@ -1,4 +1,4 @@
-function [B,L,N,idx,BW,handles]=preprocessing()
+function [B,L,N,BW,handles]=preprocessing()
 Message_to_user = msgbox({'This GUI was made in order to help you find the correct parameters for the algorithm provided';...
 'You should habe the following programs inside the folder "GUIuser" your directory';...
 '-preprocessing.m';'-sPproperties.m';'-mergeSP.m';'-chooseCondition.m';'-mergeCondition.m';...
@@ -111,5 +111,5 @@ if ~isempty(Retry.UserData)
 else
     handles.CurrentAxx=CurrentAxx;
 end
-idx = label2idx(L);
+handles.idx=label2idx(L);
 end

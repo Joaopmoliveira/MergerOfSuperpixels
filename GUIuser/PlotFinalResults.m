@@ -1,4 +1,6 @@
-function PlotFinalResults(handles,B,BW,idxfinal,idx,Lf)
+function PlotFinalResults(handles,B,BW,Lf)
+idx=handles.idx;
+idxfinal=handles.idxfinal;
 numRows = size(B,1);
 numCols = size(B,2);
 Ifinal=CreateFinal(B,idxfinal,numRows,numCols);
